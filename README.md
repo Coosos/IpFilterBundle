@@ -79,7 +79,7 @@ For example, if you work at "Acme" company, then you might create a bundle calle
 
 namespace Acme\IpBundle\Entity;
 
-use Coosos\IpFilterBundle\Entity\Ip as BaseIp;
+use SpomkyLabs\IpFilterBundle\Entity\Ip as BaseIp;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -115,7 +115,7 @@ class Ip extends BaseIp
 
 namespace Acme\IpBundle\Entity;
 
-use Coosos\IpFilterBundle\Entity\Range as BaseRange;
+use SpomkyLabs\IpFilterBundle\Entity\Range as BaseRange;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
