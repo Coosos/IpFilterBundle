@@ -1,17 +1,10 @@
-Ip Filter Bundle
-================
+# IpFilterBundle
 
-[![Build Status](https://travis-ci.org/Spomky-Labs/IpFilterBundle.png?branch=master)](https://travis-ci.org/Spomky-Labs/IpFilterBundle)
-[![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/Spomky-Labs/IpFilterBundle/badges/quality-score.png?s=801f9afe962a2ef962fa13e5bba55d2e57aa68f8)](https://scrutinizer-ci.com/g/Spomky-Labs/IpFilterBundle/)
-[![HHVM Status](http://hhvm.h4cc.de/badge/spomky-labs/ip-filter-bundle.png)](http://hhvm.h4cc.de/package/spomky-labs/ip-filter-bundle)
+*Node : This project was forked from [Spomky-Labs/IpFilterBundle](https://github.com/Spomky-Labs/IpFilterBundle) because is abandoned.*
 
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/a9c8daca-709b-4798-98f8-9a4adc592c4e/big.png)](https://insight.sensiolabs.com/projects/a9c8daca-709b-4798-98f8-9a4adc592c4e)
+[![Build Status](https://travis-ci.com/Coosos/IpFilterBundle.svg?branch=master)](https://travis-ci.org/Coosos/IpFilterBundle)
 
-[![Latest Stable Version](https://poser.pugx.org/spomky-labs/ip-filter-bundle/v/stable.png)](https://packagist.org/packages/spomky-labs/ip-filter-bundle)
-[![Total Downloads](https://poser.pugx.org/spomky-labs/ip-filter-bundle/downloads.png)](https://packagist.org/packages/spomky-labs/ip-filter-bundle)
-[![Latest Unstable Version](https://poser.pugx.org/spomky-labs/ip-filter-bundle/v/unstable.png)](https://packagist.org/packages/spomky-labs/ip-filter-bundle)
-[![License](https://poser.pugx.org/spomky-labs/ip-filter-bundle/license.png)](https://packagist.org/packages/spomky-labs/ip-filter-bundle)
-
+## Description
 This bundle will help you to restrict access of your application using `IP addresses` and `ranges of IP addresses`.
 
 It supports both `IPv4` and `IPv6` addresses and multiple environments.
@@ -20,12 +13,13 @@ For example, you can grant access of a range of addresses from `192.168.1.1` to 
 
 **Please note that this bundle has bad results in term of performance compared to similar functionality offered by a `.htaccess` file for example.** 
 
-# Prerequisites #
+## This bundle required or used
 
-This version of the bundle requires at least `Symfony 2.3`.
-It requires `Doctrine`. `Doctrine ORM` is supported, but it may be easy to use `Doctrine ODM` for example.
-
-At has been tested using `PHP 5.3` to `PHP 5.6` and `HHVM` using `Symfony 2.3` to `Symfony 2.6)`.
+| Package       | Version      |
+| ------------- | ------------ |
+| PHP           | ^7.1         |
+| Symfony       | ^4.0         |
+| Doctrine      | ^2.6         |
 
 # Policy #
 
@@ -46,24 +40,23 @@ Installation is a quick 4 steps process:
 The preferred way to install this bundle is to rely on Composer:
 
 ```sh
-composer require "spomky-labs/ip-filter-bundle" "~2.0"
+composer require "coosos/ip-filter-bundle" "~4.0"
 ```
 
 ##Step 2: Enable the bundle##
 
-Enable the bundle in the kernel:
+Enable the bundle in ``config/bundles.php``:
 
 ```php
 <?php
-// app/AppKernel.php
+// config/bundles.php
 
-public function registerBundles()
-{
-    $bundles = array(
-        // ...
-        new SpomkyLabs\IpFilterBundle\SpomkyLabsIpFilterBundle(),
-    );
-}
+return [
+    // .....
+    Coosos\IpFilterBundle\CoososIpFilterBundle::class => ['all' => true]
+    // .....
+];
+
 ```
 
 ##Step 3: Create IP and Range classes##
@@ -86,7 +79,7 @@ For example, if you work at "Acme" company, then you might create a bundle calle
 
 namespace Acme\IpBundle\Entity;
 
-use SpomkyLabs\IpFilterBundle\Entity\Ip as BaseIp;
+use Coosos\IpFilterBundle\Entity\Ip as BaseIp;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -122,7 +115,7 @@ class Ip extends BaseIp
 
 namespace Acme\IpBundle\Entity;
 
-use SpomkyLabs\IpFilterBundle\Entity\Range as BaseRange;
+use Coosos\IpFilterBundle\Entity\Range as BaseRange;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -159,7 +152,7 @@ sl_ip_filter:
     range_class:          Acme\IpBundle\Entity\Range
 ```
 
-If you have your own managers, you can use them. They just need to implement `SpomkyLabs\IpFilterBundle\Model\IpManagerInterface` or `SpomkyLabs\IpFilterBundle\Model\RangeManagerInterface`.
+If you have your own managers, you can use them. They just need to implement `Coosos\IpFilterBundle\Model\IpManagerInterface` or `Coosos\IpFilterBundle\Model\RangeManagerInterface`.
 
 ```yml
 # app/config/config.yml
