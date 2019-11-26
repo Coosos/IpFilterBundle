@@ -19,7 +19,15 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadIpData extends AbstractFixture implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
+/**
+ * Class LoadIpData
+ *
+ * @package Coosos\AppIpFilterBundle\DataFixtures\ORM
+ * @author  Remy Lescallier <lescallier1@gmail.com>
+ */
+class LoadIpData extends AbstractFixture implements FixtureInterface,
+                                                    ContainerAwareInterface,
+                                                    OrderedFixtureInterface
 {
     /**
      * @var ContainerInterface
@@ -47,19 +55,21 @@ class LoadIpData extends AbstractFixture implements FixtureInterface, ContainerA
      */
     public function load(ObjectManager $manager)
     {
-//        $ip_manager = $this->container->get('sl_ip_filter.ip_manager');
-        $ip_manager = $this->container->get('sl_ip_filter.ip_manager.default');
+        $ipManager = $this->container->get('sl_ip_filter.ip_manager.default');
 
         foreach ($this->getIps() as $ips) {
-            $ip = $ip_manager->createIp();
-            $ip->setIp($ips['ip'])
+            $ip = $ipManager->createIp();
+            $ip->setStartIp($ips['ip'])
                ->setAuthorized($ips['authorized'])
                ->setEnvironment($ips['environment']);
 
-            $ip_manager->saveIp($ip);
+            $ipManager->saveIp($ip);
         }
     }
 
+    /**
+     * @return array
+     */
     protected function getIps()
     {
         return [

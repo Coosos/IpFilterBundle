@@ -3,10 +3,11 @@
                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                   xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
                   http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
-
-    <mapped-superclass name="Coosos\IpFilterBundle\Entity\Ip">
-        <field name="ip" column="ip" type="string" length="32" nullable="false" />
+    <mapped-superclass name="Coosos\IpFilterBundle\Entity\Ip"
+                       repository-class="Coosos\IpFilterBundle\Repository\IpRepository">
+        <field name="startIp" column="start_ip" length="32" />
+        <field name="endIp" column="end_ip" length="32" nullable="true" />
         <field name="environment" column="environment" type="array" />
-        <field name="authorized" column="authorized" type="boolean" nullable="false" />
+        <field name="authorized" column="authorized" type="boolean" />
     </mapped-superclass>
 </doctrine-mapping>

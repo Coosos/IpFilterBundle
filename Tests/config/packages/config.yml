@@ -1,3 +1,2 @@
 sl_ip_filter:
     ip_class: Coosos\AppIpFilterBundle\Entity\Ip
-    range_class: Coosos\AppIpFilterBundle\Entity\Range

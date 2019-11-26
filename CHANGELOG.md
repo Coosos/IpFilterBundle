@@ -6,3 +6,4 @@
 * Rename ``SpomkyLabs`` to ``Coosos`` namespace
 * Replace ``behat`` by ``symfony/phpunit-bridge``
 * Upgrade project to ``Symfony ^4.0``
+* Use single model for IP (If "ipEnd" is null, then it is a filter on a static ip)

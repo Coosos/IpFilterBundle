@@ -12,42 +12,69 @@
 
 namespace Coosos\IpFilterBundle\Voter;
 
-use Coosos\IpFilterBundle\Model\IpManagerInterface;
-use Coosos\IpFilterBundle\Model\RangeManagerInterface;
+use Coosos\IpFilterBundle\Repository\IpRepository;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
+/**
+ * Class IpVoter
+ *
+ * @package Coosos\IpFilterBundle\Voter
+ * @author  Remy Lescallier <lescallier1@gmail.com>
+ */
 class IpVoter extends BaseIpVoter
 {
+    /**
+     * @var string
+     */
     protected $environment;
-    protected $request_stack;
-    protected $im;
-    protected $rm;
 
-    public function __construct($environment, RequestStack $request_stack, IpManagerInterface $im, RangeManagerInterface $rm)
+    /**
+     * @var RequestStack
+     */
+    protected $requestStack;
+
+    /**
+     * @var IpRepository
+     */
+    private $ipRepository;
+
+    /**
+     * IpVoter constructor.
+     *
+     * @param string       $environment
+     * @param RequestStack $requestStack
+     * @param EntityRepository|IpRepository $ipRepository
+     */
+    public function __construct(string $environment, RequestStack $requestStack, EntityRepository $ipRepository)
     {
         $this->environment = $environment;
-        $this->request_stack = $request_stack;
-        $this->im = $im;
-        $this->rm = $rm;
+        $this->requestStack = $requestStack;
+        $this->ipRepository = $ipRepository;
     }
 
+    /**
+     * @return Request|null
+     */
     protected function getRequest()
     {
-        return $this->request_stack->getCurrentRequest();
+        return $this->requestStack->getCurrentRequest();
     }
 
+    /**
+     * @return string
+     */
     protected function getEnvironment()
     {
         return $this->environment;
     }
 
-    protected function getIpManager()
+    /**
+     * @return IpRepository
+     */
+    public function getIpRepository()
     {
-        return $this->im;
-    }
-
-    protected function getRangeManager()
-    {
-        return $this->rm;
+        return $this->ipRepository;
     }
 }

@@ -4,6 +4,7 @@ namespace Coosos\AppIpFilterBundle;
 
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
+use Symfony\Component\Config\Exception\FileLoaderLoadException;
 use Symfony\Component\Config\Exception\LoaderLoadException;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
@@ -39,7 +40,7 @@ class Kernel extends BaseKernel
     /**
      * @inheritDoc
      *
-     * @throws LoaderLoadException
+     * @throws FileLoaderLoadException|LoaderLoadException
      */
     protected function configureRoutes(RouteCollectionBuilder $routes)
     {

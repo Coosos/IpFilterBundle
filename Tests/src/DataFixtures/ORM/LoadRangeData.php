@@ -19,7 +19,15 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadRangeData extends AbstractFixture implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
+/**
+ * Class LoadRangeData
+ *
+ * @package Coosos\AppIpFilterBundle\DataFixtures\ORM
+ * @author  Remy Lescallier <lescallier1@gmail.com>
+ */
+class LoadRangeData extends AbstractFixture implements FixtureInterface,
+                                                       ContainerAwareInterface,
+                                                       OrderedFixtureInterface
 {
     /**
      * @var ContainerInterface
@@ -47,20 +55,22 @@ class LoadRangeData extends AbstractFixture implements FixtureInterface, Contain
      */
     public function load(ObjectManager $manager)
     {
-//        $range_manager = $this->container->get('sl_ip_filter.range_manager');
-        $range_manager = $this->container->get('sl_ip_filter.range_manager.default');
+        $ipManager = $this->container->get('sl_ip_filter.ip_manager.default');
 
         foreach ($this->getRanges() as $ranges) {
-            $range = $range_manager->createRange();
-            $range->setStartIp($ranges['start_ip'])
-                  ->setEndIp($ranges['end_ip'])
-                  ->setAuthorized($ranges['authorized'])
-                  ->setEnvironment($ranges['environment']);
+            $ip = $ipManager->createIp();
+            $ip->setStartIp($ranges['start_ip'])
+                ->setEndIp($ranges['end_ip'])
+                ->setAuthorized($ranges['authorized'])
+                ->setEnvironment($ranges['environment']);
 
-            $range_manager->saveRange($range);
+            $ipManager->saveIp($ip);
         }
     }
 
+    /**
+     * @return array
+     */
     protected function getRanges()
     {
         return [
