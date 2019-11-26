@@ -10,7 +10,7 @@
             <argument type="string">%sl_ip_filter.ip.class%</argument>
         </service>
 
-        <service id="sl_ip_filter.ip_manager.default" class="Coosos\IpFilterBundle\Model\IpManager" public="true">
+        <service id="sl_ip_filter.ip_manager.default" class="Coosos\IpFilterBundle\Service\IpManager" public="true">
             <argument type="service" id="doctrine" />
             <argument>%sl_ip_filter.ip.class%</argument>
         </service>

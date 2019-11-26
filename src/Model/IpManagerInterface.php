@@ -12,32 +12,47 @@
 
 namespace Coosos\IpFilterBundle\Model;
 
+/**
+ * Interface IpManagerInterface
+ *
+ * @package Coosos\IpFilterBundle\Model
+ */
 interface IpManagerInterface
 {
     /**
+     * Find ip address
+     *
      * @param string $ip
      * @param string $environment
      *
-     * @return \Coosos\IpFilterBundle\Model\Ip[]
+     * @return Ip[]
      */
     public function findIpAddress($ip, $environment);
 
     /**
-     * @return \Coosos\IpFilterBundle\Model\IpInterface
+     * Create ip model
+     *
+     * @return IpInterface
      */
     public function createIp();
 
     /**
-     * @param \Coosos\IpFilterBundle\Model\IpInterface $ip
+     * Save ip model
+     *
+     * @param IpInterface $ip
+     * @param bool        $autoFlush
      *
      * @return self
      */
-    public function saveIp(IpInterface $ip);
+    public function saveIp(IpInterface $ip, bool $autoFlush);
 
     /**
-     * @param \Coosos\IpFilterBundle\Model\IpInterface $ip
+     * Delete ip model
+     *
+     * @param IpInterface $ip
+     * @param bool        $autoFlush
      *
      * @return self
      */
-    public function deleteIp(IpInterface $ip);
+    public function deleteIp(IpInterface $ip, bool $autoFlush);
 }
