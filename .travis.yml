@@ -1,43 +1,27 @@
 language: php
-
 php:
-    - 5.3
-    - 5.4
-    - 5.5
-    - 5.6
-    - hhvm
+    - 7.1
+    - 7.2
+    - 7.3
 
 env:
-    - SYMFONY_VERSION=2.3.*
-    - SYMFONY_VERSION=2.4.*
-    - SYMFONY_VERSION=2.5.*
-    - SYMFONY_VERSION=2.6.*
+    - SYMFONY_VERSION=4.0.*
+    - SYMFONY_VERSION=4.1.*
+    - SYMFONY_VERSION=4.2.*
+    - SYMFONY_VERSION=4.3.*
+    - SYMFONY_VERSION=4.4.*
 
 before_script:
     - curl -s http://getcomposer.org/installer | php
-    - php composer.phar require symfony/console:${SYMFONY_VERSION} --no-update
-    - php composer.phar require symfony/debug:${SYMFONY_VERSION} --no-update
-    - php composer.phar require symfony/http-foundation:${SYMFONY_VERSION} --no-update
-    - php composer.phar require symfony/http-kernel:${SYMFONY_VERSION} --no-update
-    - php composer.phar require symfony/security:${SYMFONY_VERSION} --no-update
-    - php composer.phar require symfony/templating:${SYMFONY_VERSION} --no-update
-    - php composer.phar require symfony/doctrine-bridge:${SYMFONY_VERSION} --no-update
-    - php composer.phar require symfony/translation:${SYMFONY_VERSION} --no-update
-    - php composer.phar require symfony/stopwatch:${SYMFONY_VERSION} --no-update
-    - php composer.phar require symfony/routing:${SYMFONY_VERSION} --no-update
-    - php composer.phar require symfony/filesystem:${SYMFONY_VERSION} --no-update
-    - php composer.phar require symfony/config:${SYMFONY_VERSION} --no-update
-    - php composer.phar require symfony/dependency-injection:${SYMFONY_VERSION} --no-update
-    - php composer.phar require symfony/dom-crawler:${SYMFONY_VERSION} --no-update
+    - php composer.phar require symfony/symfony:${SYMFONY_VERSION} --no-update
     - php composer.phar require symfony/security-bundle:${SYMFONY_VERSION} --no-update
     - php composer.phar require symfony/finder:${SYMFONY_VERSION} --no-update
-    - php composer.phar require symfony/class-loader:${SYMFONY_VERSION} --no-update
     - php composer.phar require symfony/yaml:${SYMFONY_VERSION} --no-update
     - php composer.phar require symfony/browser-kit:${SYMFONY_VERSION} --no-update
-    - php composer.phar require symfony/framework-bundle:${SYMFONY_VERSION} --no-update
-    - php composer.phar require symfony/event-dispatcher:${SYMFONY_VERSION} --no-update
+    - php composer.phar require symfony/expression-language:${SYMFONY_VERSION} --no-update
+    - php composer.phar require symfony/console:${SYMFONY_VERSION} --no-update
+    - php composer.phar require symfony/dotenv:${SYMFONY_VERSION} --no-update
     - php composer.phar update --no-interaction
 
 script:
-    - php vendor/bin/behat
-
+    - php vendor/bin/simple-phpunit
