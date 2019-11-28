@@ -48,5 +48,7 @@ class RequestTest extends WebTestCase
         yield ['fe80::1', 401];
         yield ['fe80::fa', 200];
         yield ['10.0.0.50', 401];
+        yield ['192.168.2.120', 200];
+        yield ['192.168.200.1', 200]; // Is authorized because unit test is executed with "test" environment
     }
 }

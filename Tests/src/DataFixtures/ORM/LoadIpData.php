@@ -12,6 +12,7 @@
 
 namespace Coosos\AppIpFilterBundle\DataFixtures\ORM;
 
+use Coosos\IpFilterBundle\Model\IpManagerInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -58,7 +59,8 @@ class LoadIpData extends AbstractFixture implements FixtureInterface,
      */
     public function load(ObjectManager $manager)
     {
-        $ipManager = $this->container->get('sl_ip_filter.ip_manager.default');
+        /** @var IpManagerInterface $ipManager */
+        $ipManager = $this->container->get('sl_ip_filter.ip_manager');
 
         foreach ($this->getIps() as $ips) {
             $ip = $ipManager->hydrateModelWithIp($ips['ip']);
@@ -78,6 +80,11 @@ class LoadIpData extends AbstractFixture implements FixtureInterface,
             [
                 'ip'          => '192.168.1.1',
                 'environment' => [],
+                'authorized'  => false,
+            ],
+            [
+                'ip'          => '192.168.200.1',
+                'environment' => ['prod'],
                 'authorized'  => false,
             ],
             [

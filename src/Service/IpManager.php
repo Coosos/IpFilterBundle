@@ -114,8 +114,9 @@ class IpManager implements IpManagerInterface
         $model = $model ?? $this->createIp();
         if (strpos($ip, '/') !== false) {
             $values = Network::getRange($ip);
-            $model->setStartIp($values['start']);
-            $model->setEndIp($values['end']);
+            $model
+                ->setStartIp($values['start'])
+                ->setEndIp($values['end']);
         } else {
             $model->setStartIp($ip);
         }

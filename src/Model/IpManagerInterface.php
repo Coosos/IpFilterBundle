@@ -44,7 +44,7 @@ interface IpManagerInterface
      *
      * @return self
      */
-    public function saveIp(IpInterface $ip, bool $autoFlush);
+    public function saveIp(IpInterface $ip, bool $autoFlush = true);
 
     /**
      * Delete ip model
@@ -54,7 +54,7 @@ interface IpManagerInterface
      *
      * @return self
      */
-    public function deleteIp(IpInterface $ip, bool $autoFlush);
+    public function deleteIp(IpInterface $ip, bool $autoFlush = true);
 
     /**
      * Hydrate model with IP

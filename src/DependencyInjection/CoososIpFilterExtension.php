@@ -15,6 +15,7 @@ namespace Coosos\IpFilterBundle\DependencyInjection;
 use Exception;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
@@ -55,9 +56,8 @@ class CoososIpFilterExtension extends Extension
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('service.xml');
 
-        $container->setAlias($this->getAlias().'.ip_manager', $config['ip_manager']);
-        $container->setParameter($this->getAlias().'.ip.class', $config['ip_class']);
-
+        $container->setAlias($this->getAlias() . '.ip_manager', new Alias($config['ip_manager'], true));
+        $container->setParameter($this->getAlias() . '.ip.class', $config['ip_class']);
     }
 
     /**

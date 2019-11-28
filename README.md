@@ -30,7 +30,7 @@ For example, if range `192.168.1.10` to `192.168.1.100` is **unauthorized** and 
 
 Installation is a quick 4 steps process:
 
-* Download the bundle`
+* Download the bundle
 * Enable the Bundle
 * Create your model class
 * Configure the application
@@ -59,27 +59,24 @@ return [
 
 ```
 
-##Step 3: Create IP and Range classes##
+##Step 3: Create IP classes##
 
-This bundle needs a database to persist filtered IPs and ranges.
+This bundle needs a database to persist filtered IPs.
 
-Your first job, then, is to create `Ip` and `Range` classes for your application.
+Your first job, then, is to create `Ip` classes for your application.
 These classes can look and act however you want: add any properties or methods you find useful.
 
 In the following sections, you'll see an example of how your classes should look.
-
-Your classes can live inside any bundle in your application.
-For example, if you work at "Acme" company, then you might create a bundle called `AcmeIpBundle` and place your classes in it.
 
 ###Ip class:###
 
 ```php
 <?php
-// src/Acme/IpBundle/Entity/Ip.php
+// src/Entity/Ip.php
 
-namespace Acme\IpBundle\Entity;
+namespace App\Entity;
 
-use SpomkyLabs\IpFilterBundle\Entity\Ip as BaseIp;
+use Coosos\IpFilterBundle\Entity\Ip as BaseIp;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -105,61 +102,23 @@ class Ip extends BaseIp
 }
 ```
 
-
-**Easy!**
--
-
-```php
-<?php
-// src/Acme/IpBundle/Entity/Range.php
-
-namespace Acme\IpBundle\Entity;
-
-use SpomkyLabs\IpFilterBundle\Entity\Range as BaseRange;
-use Doctrine\ORM\Mapping as ORM;
-
-/**
- * Range
- *
- * @ORM\Table(name="ranges")
- */
-class Range extends BaseRange
-{
-    /**
-     * @var integer $id
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    protected $id;
-
-    public function getId()
-    {
-        return $this->id;
-    }
-}
-```
-
 ##Step 4: Configure your application##
 
 ### Set your classes and managers ###
 
 ```yml
-# app/config/config.yml
+# config/packages/config.yml
 sl_ip_filter:
-    ip_class:             Acme\IpBundle\Entity\Ip
-    range_class:          Acme\IpBundle\Entity\Range
+    ip_class: App\Entity\Ip
 ```
 
-If you have your own managers, you can use them. They just need to implement `Coosos\IpFilterBundle\Model\IpManagerInterface` or `Coosos\IpFilterBundle\Model\RangeManagerInterface`.
+If you have your own managers, you can use them. They just need to implement `Coosos\IpFilterBundle\Model\IpManagerInterface`.
 
 ```yml
 # app/config/config.yml
 sl_ip_filter:
     ...
     ip_manager: my.custom.ip.entity_manager
-    range_manager: my.custom.range.entity_manager
 ```
 
 ###Security Strategy###
@@ -169,7 +128,7 @@ In order for this bundle to take effect, you need to change the default access d
 You also need to place your site behind a firewall rule.
 
 ```yml
-# app/config/security.yml
+# config/packages/security.yml
 security:
     access_decision_manager:
         strategy: unanimous
@@ -192,23 +151,27 @@ How to grant access for `192.168.1.10` on `dev` and `test` environments and deny
 ```php
 <?php
 
-$ip_manager    = $this->container->get('sl_ip_filter.ip_manager'); //Use this line, even if you use a custom IP manager
-$range_manager = $this->container->get('sl_ip_filter.range_manager'); //Use this line, even if you use a custom Range manager
+use Coosos\IpFilterBundle\Model\IpManagerInterface;
+
+/** @var IpManagerInterface $ipManager */
+$ipManager = $this->container->get('sl_ip_filter.ip_manager'); //Use this line, even if you use a custom IP manager
 
 //Create your IP
-$ip = $ip_manager->createIp();
-$ip->setIp('192.168.1.10')
-   ->setEnvironment('dev,test')
-   ->setAuthorized(true);
-$ip_manager->saveIp($ip);
+$ip = $ipManager->createIp();
+$ip->setStartIp('192.168.1.10') // Use only setStartIp() if it's a simple IP
+   ->setEnvironment(['dev', 'test']) // You can also use 'prod'
+   ->setAuthorized(false);
 
-//Create your range
-$range = $range_manager->createRange();
-$range->setStartIp('0.0.0.1')
-      ->setEndIp('255.255.254')
-      ->setEnvironment('dev,test')
-      ->setAuthorized(false);
-$range_manager->saveRange($range);
+$ipManager->saveIp($ip);
+
+// If you need to block or authorized an IP range, you must also specify an end ip with the setEndIp() method
+$ip = $ipManager->createIp();
+$ip->setStartIp('10.30.0.0')
+   ->setEndIp('10.30.0.255')
+   ->setEnvironment(['dev', 'test'])
+   ->setAuthorized(true);
+
+$ipManager->saveIp($ip);
 ```
 
 ## Network support ##
@@ -219,23 +182,29 @@ This bundle provides a range calculator, so you can easily extend your range ent
 ```php
 <?php
 
-$range_manager = $this->container->get('sl_ip_filter.range_manager');
+use Coosos\IpFilterBundle\Model\IpManagerInterface;
+
+/** @var IpManagerInterface $ipManager */
+$ipManager = $this->container->get('sl_ip_filter.ip_manager');
 
 //All addresses (IPv4)
-$range1 = $range_manager->createRangeFromNetwork('0.0.0.0/0');
-$range1->setEnvironment('dev,test')
+$range1 = $ipManager->hydrateModelWithIp('0.0.0.0/0');
+$range1->setEnvironment(['dev', 'test'])
        ->setAuthorized(false);
-$range_manager->saveRange($range1);
+
+$ipManager->saveIp($range1);
 
 //My local network (IPv4)
-$range2 = $range_manager->createRangeFromNetwork('192.168.0.0/16');
-$range2->setEnvironment('dev,test')
+$range2 = $ipManager->hydrateModelWithIp('192.168.0.0/16');
+$range2->setEnvironment(['dev', 'test'])
        ->setAuthorized(true);
-$range_manager->saveRange($range2);
+
+$ipManager->saveIp($range2);
 
 //Another local network (IPv6)
-$range3 = $range_manager->createRangeFromNetwork('fe80::/64');
-$range3->setEnvironment('dev,test')
+$range3 = $ipManager->hydrateModelWithIp('fe80::/64');
+$range3->setEnvironment(['dev', 'test'])
        ->setAuthorized(true);
-$range_manager->saveRange($range3);
+
+$ipManager->saveIp($range3);
 ```

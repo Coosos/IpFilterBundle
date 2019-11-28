@@ -12,6 +12,7 @@
 
 namespace Coosos\AppIpFilterBundle\DataFixtures\ORM;
 
+use Coosos\IpFilterBundle\Model\IpManagerInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -55,7 +56,8 @@ class LoadRangeData extends AbstractFixture implements FixtureInterface,
      */
     public function load(ObjectManager $manager)
     {
-        $ipManager = $this->container->get('sl_ip_filter.ip_manager.default');
+        /** @var IpManagerInterface $ipManager */
+        $ipManager = $this->container->get('sl_ip_filter.ip_manager');
 
         foreach ($this->getRanges() as $ranges) {
             $ip = $ipManager->createIp();
