@@ -55,4 +55,14 @@ interface IpManagerInterface
      * @return self
      */
     public function deleteIp(IpInterface $ip, bool $autoFlush);
+
+    /**
+     * Hydrate model with IP
+     *
+     * @param string           $ip
+     * @param IpInterface|null $model
+     *
+     * @return IpInterface
+     */
+    public function hydrateModelWithIp(string $ip, IpInterface $model = null): IpInterface;
 }

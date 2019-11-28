@@ -15,8 +15,10 @@ namespace Coosos\IpFilterBundle\Service;
 use Coosos\IpFilterBundle\Model\IpInterface;
 use Coosos\IpFilterBundle\Model\IpManagerInterface;
 use Coosos\IpFilterBundle\Repository\IpRepository;
+use Coosos\IpFilterBundle\Tool\Network;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\ObjectRepository;
+use Exception;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -96,5 +98,28 @@ class IpManager implements IpManagerInterface
         }
 
         return $this;
+    }
+
+    /**
+     * Hydrate model with ip string (Allow subnetwork in string)
+     *
+     * @param string           $ip
+     * @param IpInterface|null $model
+     *
+     * @return IpInterface
+     * @throws Exception
+     */
+    public function hydrateModelWithIp(string $ip, IpInterface $model = null): IpInterface
+    {
+        $model = $model ?? $this->createIp();
+        if (strpos($ip, '/') !== false) {
+            $values = Network::getRange($ip);
+            $model->setStartIp($values['start']);
+            $model->setEndIp($values['end']);
+        } else {
+            $model->setStartIp($ip);
+        }
+
+        return $model;
     }
 }

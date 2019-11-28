@@ -12,14 +12,29 @@
 
 namespace Coosos\IpFilterBundle\Tool;
 
+use Exception;
+
+/**
+ * Class Network
+ *
+ * @package Coosos\IpFilterBundle\Tool
+ */
 class Network
 {
-    public static function getRange($network)
+    /**
+     * Get range from string
+     *
+     * @param string $network
+     *
+     * @return array
+     * @throws Exception
+     */
+    public static function getRange(string $network): array
     {
         try {
-            list($ip, $cidr) = explode('/', $network);
-        } catch (\Exception $e) {
-            throw new \Exception('Invalid IP/CIDR combination supplied');
+            [$ip, $cidr] = explode('/', $network);
+        } catch (Exception $e) {
+            throw new Exception('Invalid IP/CIDR combination supplied');
         }
 
         if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4)) {
@@ -30,17 +45,26 @@ class Network
             return self::getIPv6Range($ip, $cidr);
         }
 
-        throw new \Exception('Invalid IP/CIDR combination supplied');
+        throw new Exception('Invalid IP/CIDR combination supplied');
     }
 
-    protected static function getIPv4Range($ip, $cidr)
+    /**
+     * Get IPv4Range
+     *
+     * @param string $ip
+     * @param string $cidr
+     *
+     * @return array
+     * @throws Exception
+     */
+    protected static function getIPv4Range(string $ip, string $cidr)
     {
         if ($cidr < 0 || $cidr > 32) {
-            throw new \Exception('Invalid network, IPv4 CIDR must be between 0 and 32.');
+            throw new Exception('Invalid network, IPv4 CIDR must be between 0 and 32.');
         }
 
         $ipLong = ip2long($ip);
-        $ipMaskLong = bindec(str_repeat('1', $cidr).str_repeat('0', 32 - $cidr));
+        $ipMaskLong = bindec(str_repeat('1', $cidr) . str_repeat('0', 32 - $cidr));
         $network = $ipLong & $ipMaskLong;
         $broadcast = $ipLong | ~$ipMaskLong;
 
@@ -53,16 +77,25 @@ class Network
         ];
     }
 
-    protected static function getIPv6Range($ip, $cidr)
+    /**
+     * Get IPv6 Range
+     *
+     * @param string $ip
+     * @param string $cidr
+     *
+     * @return array
+     * @throws Exception
+     */
+    protected static function getIPv6Range(string $ip, string $cidr): array
     {
         if ($cidr < 0 || $cidr > 128) {
-            throw new \Exception('Invalid network, IPv6 CIDR must be between 0 and 128.');
+            throw new Exception('Invalid network, IPv6 CIDR must be between 0 and 128.');
         }
 
         $hosts = 128 - $cidr;
         $networks = 128 - $hosts;
 
-        $_m = str_repeat('1', $networks).str_repeat('0', $hosts);
+        $_m = str_repeat('1', $networks) . str_repeat('0', $hosts);
 
         $_hexMask = '';
         foreach (str_split($_m, 4) as $segment) {
@@ -84,10 +117,14 @@ class Network
     }
 
     /**
+     * Convert binary to printable
+     *
      * @param string $str
+     *
+     * @return false|string
      */
     protected static function convertBinaryToPrintable($str)
     {
-        return inet_ntop(pack('A'.strlen($str), $str));
+        return inet_ntop(pack('A' . strlen($str), $str));
     }
 }

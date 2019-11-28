@@ -16,6 +16,7 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Exception;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -52,15 +53,16 @@ class LoadIpData extends AbstractFixture implements FixtureInterface,
 
     /**
      * {@inheritdoc}
+     *
+     * @throws Exception
      */
     public function load(ObjectManager $manager)
     {
         $ipManager = $this->container->get('sl_ip_filter.ip_manager.default');
 
         foreach ($this->getIps() as $ips) {
-            $ip = $ipManager->createIp();
-            $ip->setStartIp($ips['ip'])
-               ->setAuthorized($ips['authorized'])
+            $ip = $ipManager->hydrateModelWithIp($ips['ip']);
+            $ip->setAuthorized($ips['authorized'])
                ->setEnvironment($ips['environment']);
 
             $ipManager->saveIp($ip);
@@ -110,6 +112,11 @@ class LoadIpData extends AbstractFixture implements FixtureInterface,
             ],
             [
                 'ip'          => 'fe80::2:11',
+                'environment' => ['test', 'prod', 'dev'],
+                'authorized'  => false,
+            ],
+            [
+                'ip'          => '10.0.0.0/24',
                 'environment' => ['test', 'prod', 'dev'],
                 'authorized'  => false,
             ],
