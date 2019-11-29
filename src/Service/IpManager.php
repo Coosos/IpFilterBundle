@@ -112,15 +112,14 @@ class IpManager implements IpManagerInterface
     public function hydrateModelWithIp(string $ip, IpInterface $model = null): IpInterface
     {
         $model = $model ?? $this->createIp();
+        $startIp = $ip;
+        $endIp = null;
         if (strpos($ip, '/') !== false) {
             $values = Network::getRange($ip);
-            $model
-                ->setStartIp($values['start'])
-                ->setEndIp($values['end']);
-        } else {
-            $model->setStartIp($ip);
+            $startIp = $values['start'];
+            $endIp = $values['end'];
         }
 
-        return $model;
+        return $model->setStartIp($startIp)->setEndIp($endIp);
     }
 }

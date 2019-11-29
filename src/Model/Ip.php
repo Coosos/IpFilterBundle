@@ -65,7 +65,7 @@ class Ip implements IpInterface
      */
     public function getEndIp()
     {
-        return IpConverter::fromHexToIp($this->endIp);
+        return $this->endIp ? IpConverter::fromHexToIp($this->endIp) : null;
     }
 
     /**
@@ -73,7 +73,7 @@ class Ip implements IpInterface
      */
     public function setEndIp(?string $endIp)
     {
-        $this->endIp = IpConverter::fromIpToHex($endIp);
+        $this->endIp = $endIp ? IpConverter::fromIpToHex($endIp) : null;
 
         return $this;
     }
