@@ -32,16 +32,15 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root($this->alias);
+        $treeBuilder = new TreeBuilder($this->alias);
+        $rootNode = (method_exists($treeBuilder, 'getRootNode'))
+            ? $treeBuilder->getRootNode()
+            : $treeBuilder->root($this->alias);
 
         $rootNode
             ->children()
                 ->scalarNode('ip_class')->isRequired()->cannotBeEmpty()->end()
                 ->scalarNode('ip_manager')->defaultValue('sl_ip_filter.ip_manager.default')->end()
-
-                ->scalarNode('range_class')->isRequired()->cannotBeEmpty()->end()
-                ->scalarNode('range_manager')->defaultValue('sl_ip_filter.range_manager.default')->end()
             ->end();
 
         return $treeBuilder;

@@ -12,14 +12,24 @@
 
 namespace Coosos\AppIpFilterBundle\DataFixtures\ORM;
 
+use Coosos\IpFilterBundle\Model\IpManagerInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Exception;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadIpData extends AbstractFixture implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
+/**
+ * Class LoadIpData
+ *
+ * @package Coosos\AppIpFilterBundle\DataFixtures\ORM
+ * @author  Remy Lescallier <lescallier1@gmail.com>
+ */
+class LoadIpData extends AbstractFixture implements FixtureInterface,
+                                                    ContainerAwareInterface,
+                                                    OrderedFixtureInterface
 {
     /**
      * @var ContainerInterface
@@ -44,28 +54,37 @@ class LoadIpData extends AbstractFixture implements FixtureInterface, ContainerA
 
     /**
      * {@inheritdoc}
+     *
+     * @throws Exception
      */
     public function load(ObjectManager $manager)
     {
-//        $ip_manager = $this->container->get('sl_ip_filter.ip_manager');
-        $ip_manager = $this->container->get('sl_ip_filter.ip_manager.default');
+        /** @var IpManagerInterface $ipManager */
+        $ipManager = $this->container->get('sl_ip_filter.ip_manager');
 
         foreach ($this->getIps() as $ips) {
-            $ip = $ip_manager->createIp();
-            $ip->setIp($ips['ip'])
-               ->setAuthorized($ips['authorized'])
+            $ip = $ipManager->hydrateModelWithIp($ips['ip']);
+            $ip->setAuthorized($ips['authorized'])
                ->setEnvironment($ips['environment']);
 
-            $ip_manager->saveIp($ip);
+            $ipManager->saveIp($ip);
         }
     }
 
+    /**
+     * @return array
+     */
     protected function getIps()
     {
         return [
             [
                 'ip'          => '192.168.1.1',
                 'environment' => [],
+                'authorized'  => false,
+            ],
+            [
+                'ip'          => '192.168.200.1',
+                'environment' => ['prod'],
                 'authorized'  => false,
             ],
             [
@@ -100,6 +119,11 @@ class LoadIpData extends AbstractFixture implements FixtureInterface, ContainerA
             ],
             [
                 'ip'          => 'fe80::2:11',
+                'environment' => ['test', 'prod', 'dev'],
+                'authorized'  => false,
+            ],
+            [
+                'ip'          => '10.0.0.0/24',
                 'environment' => ['test', 'prod', 'dev'],
                 'authorized'  => false,
             ],

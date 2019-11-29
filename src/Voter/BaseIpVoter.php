@@ -12,14 +12,22 @@
 
 namespace Coosos\IpFilterBundle\Voter;
 
+use Coosos\IpFilterBundle\Repository\IpRepository;
 use Coosos\IpFilterBundle\Tool\IpConverter;
+use Exception;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
+/**
+ * Class BaseIpVoter
+ *
+ * @package Coosos\IpFilterBundle\Voter
+ */
 abstract class BaseIpVoter implements VoterInterface
 {
     /**
-     * @return \Symfony\Component\HttpFoundation\Request
+     * @return Request
      */
     abstract protected function getRequest();
 
@@ -29,51 +37,32 @@ abstract class BaseIpVoter implements VoterInterface
     abstract protected function getEnvironment();
 
     /**
-     * @return \Coosos\IpFilterBundle\Model\IpManagerInterface
+     * @return IpRepository
      */
-    abstract protected function getIpManager();
+    abstract protected function getIpRepository();
 
     /**
-     * @return \Coosos\IpFilterBundle\Model\RangeManagerInterface
+     * {@inheritDoc}
+     *
+     * @throws Exception
      */
-    abstract protected function getRangeManager();
-
-    public function supportsAttribute($attribute)
-    {
-        return true;
-    }
-
-    public function supportsClass($class)
-    {
-        return true;
-    }
-
     public function vote(TokenInterface $token, $object, array $attributes)
     {
         $request = $this->getRequest();
         if (!$request) {
-            throw new \Exception('No request found.');
+            throw new Exception('No request found.');
         }
 
         $from = IpConverter::fromIpToHex($request->getClientIp());
-
         $env = $this->getEnvironment();
 
-        $ips = $this->getIpManager()->findIpAddress($from, $env);
-        $ranges = $this->getRangeManager()->findByIpAddress($from, $env);
-
-        if (count($ips) === 0 && count($ranges) === 0) {
+        $ips = $this->getIpRepository()->findIpAddress($from, $env);
+        if (count($ips) === 0) {
             return VoterInterface::ACCESS_ABSTAIN;
         }
 
         foreach ($ips as $ip) {
             if ($ip->isAuthorized()) {
-                return VoterInterface::ACCESS_GRANTED;
-            }
-        }
-
-        foreach ($ranges as $range) {
-            if ($range->isAuthorized()) {
                 return VoterInterface::ACCESS_GRANTED;
             }
         }

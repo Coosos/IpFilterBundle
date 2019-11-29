@@ -14,6 +14,11 @@ namespace Coosos\IpFilterBundle\Entity;
 
 use Coosos\IpFilterBundle\Model\Ip as Base;
 
+/**
+ * Class Ip
+ *
+ * @package Coosos\IpFilterBundle\Entity
+ */
 class Ip extends Base
 {
 }

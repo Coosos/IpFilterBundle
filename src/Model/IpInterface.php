@@ -12,19 +12,40 @@
 
 namespace Coosos\IpFilterBundle\Model;
 
+/**
+ * Interface IpInterface
+ *
+ * @package Coosos\IpFilterBundle\Model
+ */
 interface IpInterface
 {
     /**
      * @return string
      */
-    public function getIp();
+    public function getStartIp();
 
     /**
-     * @param string $ip The IP address
+     * @param string $startIp The start IP address
      *
      * @return self
      */
-    public function setIp($ip);
+    public function setStartIp(string $startIp);
+
+    /**
+     * If null, matches only one ip (StartIp)
+     *
+     * @return string
+     */
+    public function getEndIp();
+
+    /**
+     * If null, matches only one ip (StartIp)
+     *
+     * @param string|null $endIp The end IP address
+     *
+     * @return self
+     */
+    public function setEndIp(?string $endIp);
 
     /**
      * @return array
@@ -48,5 +69,5 @@ interface IpInterface
      *
      * @return self
      */
-    public function setAuthorized($authorized);
+    public function setAuthorized(bool $authorized);
 }

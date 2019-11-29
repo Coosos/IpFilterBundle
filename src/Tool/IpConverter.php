@@ -12,9 +12,21 @@
 
 namespace Coosos\IpFilterBundle\Tool;
 
+/**
+ * Class IpConverter
+ *
+ * @package Coosos\IpFilterBundle\Tool
+ */
 class IpConverter
 {
-    public static function fromIpToHex($ip)
+    /**
+     * Convert IP to hex
+     *
+     * @param string $ip
+     *
+     * @return string
+     */
+    public static function fromIpToHex(string $ip): string
     {
         $hex = bin2hex(inet_pton($ip));
         if (8 === strlen($hex)) {
@@ -24,7 +36,14 @@ class IpConverter
         return $hex;
     }
 
-    public static function fromHexToIp($ip)
+    /**
+     * Convert hex to ip
+     *
+     * @param string $ip
+     *
+     * @return string
+     */
+    public static function fromHexToIp(string $ip): string
     {
         $hex = pack('H*', $ip);
         if (str_repeat('0', 24) === substr($hex, 0, 24)) {

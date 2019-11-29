@@ -12,15 +12,25 @@
 
 namespace Coosos\IpFilterBundle\DependencyInjection;
 
+use Exception;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\DependencyInjection\Alias;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
-use Symfony\Component\HttpKernel\Kernel;
 
+/**
+ * Class CoososIpFilterExtension
+ *
+ * @package Coosos\IpFilterBundle\DependencyInjection
+ * @author  Remy Lescallier <lescallier1@gmail.com>
+ */
 class CoososIpFilterExtension extends Extension
 {
+    /**
+     * @var string
+     */
     private $alias;
 
     /**
@@ -31,6 +41,11 @@ class CoososIpFilterExtension extends Extension
         $this->alias = $alias;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @throws Exception
+     */
     public function load(array $configs, ContainerBuilder $container)
     {
         $processor = new Processor();
@@ -39,17 +54,10 @@ class CoososIpFilterExtension extends Extension
         $config = $processor->processConfiguration($configuration, $configs);
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
-        if ('2.4' > Kernel::VERSION) {
-            $loader->load('service_2.3.xml');
-        } else {
-            $loader->load('service.xml');
-        }
+        $loader->load('service.xml');
 
-        $container->setAlias($this->getAlias().'.ip_manager', $config['ip_manager']);
-        $container->setParameter($this->getAlias().'.ip.class', $config['ip_class']);
-
-        $container->setAlias($this->getAlias().'.range_manager', $config['range_manager']);
-        $container->setParameter($this->getAlias().'.range.class', $config['range_class']);
+        $container->setAlias($this->getAlias() . '.ip_manager', new Alias($config['ip_manager'], true));
+        $container->setParameter($this->getAlias() . '.ip.class', $config['ip_class']);
     }
 
     /**

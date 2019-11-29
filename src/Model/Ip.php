@@ -14,29 +14,81 @@ namespace Coosos\IpFilterBundle\Model;
 
 use Coosos\IpFilterBundle\Tool\IpConverter;
 
+/**
+ * Class Ip
+ *
+ * @package Coosos\IpFilterBundle\Model
+ * @author  Remy Lescallier <lescallier1@gmail.com>
+ */
 class Ip implements IpInterface
 {
-    protected $ip;
+    /**
+     * @var string
+     */
+    protected $startIp;
+
+    /**
+     * @var string|null
+     */
+    protected $endIp;
+
+    /**
+     * @var array
+     */
     protected $environment = [];
+
+    /**
+     * @var bool
+     */
     protected $authorized;
 
-    public function getIp()
+    /**
+     * @inheritDoc
+     */
+    public function getStartIp()
     {
-        return IpConverter::fromHexToIp($this->ip);
+        return IpConverter::fromHexToIp($this->startIp);
     }
 
-    public function setIp($ip)
+    /**
+     * @inheritDoc
+     */
+    public function setStartIp(string $startIp)
     {
-        $this->ip = IpConverter::fromIpToHex($ip);
+        $this->startIp = IpConverter::fromIpToHex($startIp);
 
         return $this;
     }
 
+    /**
+     * @inheritDoc
+     */
+    public function getEndIp()
+    {
+        return IpConverter::fromHexToIp($this->endIp);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setEndIp(?string $endIp)
+    {
+        $this->endIp = IpConverter::fromIpToHex($endIp);
+
+        return $this;
+    }
+
+    /**
+     * @inheritDoc
+     */
     public function getEnvironment()
     {
         return $this->environment;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function setEnvironment(array $environment)
     {
         $this->environment = $environment;
@@ -44,12 +96,18 @@ class Ip implements IpInterface
         return $this;
     }
 
+    /**
+     * @inheritDoc
+     */
     public function isAuthorized()
     {
         return $this->authorized;
     }
 
-    public function setAuthorized($authorized)
+    /**
+     * @inheritDoc
+     */
+    public function setAuthorized(bool $authorized)
     {
         $this->authorized = $authorized;
 
