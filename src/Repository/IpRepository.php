@@ -30,6 +30,8 @@ class IpRepository extends EntityRepository
             ->setParameter('ip', $ip)
             ->setParameter('environment', '%'. $environment .'%');
 
-        return $queryBuilder->getQuery()->getResult();
+        $result = $queryBuilder->getQuery()->getResult();
+
+        return $result ?? [];
     }
 }
