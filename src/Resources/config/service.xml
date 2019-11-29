@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <defaults autowire="true" autoconfigure="true" public="false"/>
+        <service id="coosos_ip_filter.repository" class="Doctrine\ORM\EntityRepository">
+            <factory service="doctrine.orm.entity_manager" method="getRepository" />
+            <argument type="string">%sl_ip_filter.ip.class%</argument>
+        </service>
+
+        <service id="sl_ip_filter.ip_manager.default" class="Coosos\IpFilterBundle\Service\IpManager" public="true">
+            <argument type="service" id="doctrine" />
+            <argument>%sl_ip_filter.ip.class%</argument>
+        </service>
+
+        <service id="sl_ip_filter.ip_voter" class="Coosos\IpFilterBundle\Voter\IpVoter" public="false">
+            <argument>%kernel.environment%</argument>
+            <argument type="service" id="request_stack" />
+            <argument type="service" id="coosos_ip_filter.repository"/>
+            <tag name="security.voter" />
+        </service>
+    </services>
+</container>
