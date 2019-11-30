@@ -1,6 +1,6 @@
 # IpFilterBundle
 
-*Node : This project was forked from [Spomky-Labs/IpFilterBundle](https://github.com/Spomky-Labs/IpFilterBundle) because is abandoned.*
+*Note : This project was forked from [Spomky-Labs/IpFilterBundle](https://github.com/Spomky-Labs/IpFilterBundle) because is abandoned.*
 
 [![Build Status](https://travis-ci.com/Coosos/IpFilterBundle.svg?branch=master)](https://travis-ci.org/Coosos/IpFilterBundle)
 
