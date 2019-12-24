@@ -20,11 +20,11 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 /**
- * Class BaseIpVoter
+ * Class AbstractIpVoter
  *
  * @package Coosos\IpFilterBundle\Voter
  */
-abstract class BaseIpVoter implements VoterInterface
+abstract class AbstractIpVoter implements VoterInterface
 {
     /**
      * @return Request

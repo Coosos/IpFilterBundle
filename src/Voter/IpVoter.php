@@ -23,7 +23,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  * @package Coosos\IpFilterBundle\Voter
  * @author  Remy Lescallier <lescallier1@gmail.com>
  */
-class IpVoter extends BaseIpVoter
+class IpVoter extends AbstractIpVoter
 {
     /**
      * @var string
