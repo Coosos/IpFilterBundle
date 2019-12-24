@@ -15,10 +15,12 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 class RequestTest extends WebTestCase
 {
     /**
+     * Test trquest
+     *
      * @dataProvider requestTestList()
      *
      * @param string $clientIp
-     * @param int $resultStatusCode
+     * @param int    $resultStatusCode
      */
     public function testRequest(string $clientIp, int $resultStatusCode)
     {
@@ -26,7 +28,7 @@ class RequestTest extends WebTestCase
         $client->followRedirects(true);
         $client->catchExceptions(false);
 
-        if ($resultStatusCode === 401) {
+        if (401 === $resultStatusCode) {
             $this->expectException(AccessDeniedException::class);
         }
 

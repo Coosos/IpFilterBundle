@@ -28,7 +28,9 @@
         "dama/doctrine-test-bundle": "^5.0",
         "symfony/console": "^4.0",
         "symfony/phpunit-bridge": "^5.0",
-        "symfony/dotenv": "^4.0"
+        "symfony/dotenv": "^4.0",
+        "escapestudios/symfony2-coding-standard": "3.x-dev",
+        "phpmd/phpmd": "^2.8"
     },
     "autoload": {
         "psr-4": { "Coosos\\IpFilterBundle\\": "src/" }
@@ -50,6 +52,13 @@
         "run-phpunit": [
             "@prepare-run-phpunit",
             "vendor/bin/simple-phpunit"
+        ],
+        "run-phpcs": "php vendor/bin/phpcs -p --standard=phpcs.xml --ignore=*/vendor/*,Tests/config/bootstrap.php ./ --extensions=php --report-full",
+        "run-phpmd": "php vendor/bin/phpmd ./ text ./phpmd.xml --exclude vendor/,Tests/config/bootstrap.php --suffixes php",
+        "run-test-suite": [
+            "@run-phpunit",
+            "@run-phpcs",
+            "@run-phpmd"
         ]
     }
 }

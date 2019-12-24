@@ -39,6 +39,30 @@ class Kernel extends BaseKernel
 
     /**
      * @inheritDoc
+     */
+    public function getCacheDir()
+    {
+        return sys_get_temp_dir() . '/CoososAppIpFilterBundle/cache';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getLogDir()
+    {
+        return sys_get_temp_dir() . '/CoososAppIpFilterBundle/log';
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getProjectDir()
+    {
+        return parent::getProjectDir() . '/Tests';
+    }
+
+    /**
+     * @inheritDoc
      *
      * @throws FileLoaderLoadException|LoaderLoadException
      */
@@ -66,29 +90,5 @@ class Kernel extends BaseKernel
         $loader->load($confDir . '/{packages}/' . $this->environment . '/**/*' . self::CONFIG_EXTS, 'glob');
         $loader->load($confDir . '/{services}' . self::CONFIG_EXTS, 'glob');
         $loader->load($confDir . '/{services}_' . $this->environment . self::CONFIG_EXTS, 'glob');
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getCacheDir()
-    {
-        return sys_get_temp_dir() . '/CoososAppIpFilterBundle/cache';
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getLogDir()
-    {
-        return sys_get_temp_dir() . '/CoososAppIpFilterBundle/log';
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function getProjectDir()
-    {
-        return parent::getProjectDir() . '/Tests';
     }
 }
