@@ -58,15 +58,15 @@ abstract class AbstractIpVoter implements VoterInterface
     /**
      * @return Request
      */
-    abstract protected function getRequest();
+    abstract protected function getRequest(): ?Request;
 
     /**
      * @return string
      */
-    abstract protected function getEnvironment();
+    abstract protected function getEnvironment(): string;
 
     /**
      * @return IpRepository
      */
-    abstract protected function getIpRepository();
+    abstract protected function getIpRepository(): IpRepository;
 }

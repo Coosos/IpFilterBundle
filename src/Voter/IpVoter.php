@@ -43,8 +43,8 @@ class IpVoter extends AbstractIpVoter
     /**
      * IpVoter constructor.
      *
-     * @param string       $environment
-     * @param RequestStack $requestStack
+     * @param string                        $environment
+     * @param RequestStack                  $requestStack
      * @param EntityRepository|IpRepository $ipRepository
      */
     public function __construct(string $environment, RequestStack $requestStack, EntityRepository $ipRepository)
@@ -55,25 +55,25 @@ class IpVoter extends AbstractIpVoter
     }
 
     /**
-     * @return Request|null
+     * {@inheritDoc}
      */
-    protected function getRequest()
+    protected function getRequest(): ?Request
     {
         return $this->requestStack->getCurrentRequest();
     }
 
     /**
-     * @return string
+     * {@inheritDoc}
      */
-    protected function getEnvironment()
+    protected function getEnvironment(): string
     {
         return $this->environment;
     }
 
     /**
-     * @return IpRepository
+     * {@inheritDoc}
      */
-    public function getIpRepository()
+    protected function getIpRepository(): IpRepository
     {
         return $this->ipRepository;
     }
