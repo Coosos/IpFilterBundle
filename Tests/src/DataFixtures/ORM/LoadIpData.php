@@ -27,9 +27,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @package Coosos\AppIpFilterBundle\DataFixtures\ORM
  * @author  Remy Lescallier <lescallier1@gmail.com>
  */
-class LoadIpData extends AbstractFixture implements FixtureInterface,
-                                                    ContainerAwareInterface,
-                                                    OrderedFixtureInterface
+class LoadIpData extends AbstractFixture implements
+    FixtureInterface,
+    ContainerAwareInterface,
+    OrderedFixtureInterface
 {
     /**
      * @var ContainerInterface
