@@ -27,21 +27,6 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 abstract class AbstractIpVoter implements VoterInterface
 {
     /**
-     * @return Request
-     */
-    abstract protected function getRequest();
-
-    /**
-     * @return string
-     */
-    abstract protected function getEnvironment();
-
-    /**
-     * @return IpRepository
-     */
-    abstract protected function getIpRepository();
-
-    /**
      * {@inheritDoc}
      *
      * @throws Exception
@@ -69,4 +54,19 @@ abstract class AbstractIpVoter implements VoterInterface
 
         return VoterInterface::ACCESS_DENIED;
     }
+
+    /**
+     * @return Request
+     */
+    abstract protected function getRequest();
+
+    /**
+     * @return string
+     */
+    abstract protected function getEnvironment();
+
+    /**
+     * @return IpRepository
+     */
+    abstract protected function getIpRepository();
 }
