@@ -38,5 +38,18 @@
             "Coosos\\AppIpFilterBundle\\": "Tests/src/",
             "Coosos\\TestIpFilterBundle\\": "Tests/tests/"
         }
+    },
+    "scripts": {
+        "prepare-run-phpunit": [
+            "mkdir -p Tests/var",
+            "APP_ENV=test php Tests/bin/console doctrine:database:drop --force",
+            "APP_ENV=test php Tests/bin/console doctrine:database:create",
+            "APP_ENV=test php Tests/bin/console doctrine:schema:create",
+            "APP_ENV=test php Tests/bin/console doctrine:fixtures:load --append --no-interaction"
+        ],
+        "run-phpunit": [
+            "@prepare-run-phpunit",
+            "vendor/bin/simple-phpunit"
+        ]
     }
 }
