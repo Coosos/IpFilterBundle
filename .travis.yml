@@ -25,4 +25,4 @@ before_script:
     - php composer.phar update --no-interaction
 
 script:
-    - php composer.phar run-phpunit
+    - php composer.phar run-test-suite
