@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="PHP_CodeSniffer"
+         xsi:noNamespaceSchemaLocation="vendor/squizlabs/php_codesniffer/phpcs.xsd">
+    <!-- Ignore package annotation -->
+    <rule ref="Symfony.Commenting.ClassComment.PackageBlacklisted">
+        <severity>0</severity>
+    </rule>
+
+    <!-- Ignore space between annotation tag -->
+    <rule ref="Symfony.Commenting.Annotations.Invalid">
+        <severity>0</severity>
+    </rule>
+
+    <!-- Ignore licence comment -->
+    <rule ref="Symfony.Commenting.License.MissingLicenseComment">
+        <severity>0</severity>
+    </rule>
+
+    <rule ref="Squiz.Strings.ConcatenationSpacing">
+        <properties>
+            <property name="spacing" value="1"/>
+        </properties>
+    </rule>
+</ruleset>

@@ -95,20 +95,20 @@ class Network
         $hosts = 128 - $cidr;
         $networks = 128 - $hosts;
 
-        $_m = str_repeat('1', $networks) . str_repeat('0', $hosts);
+        $m = str_repeat('1', $networks) . str_repeat('0', $hosts);
 
-        $_hexMask = '';
-        foreach (str_split($_m, 4) as $segment) {
-            $_hexMask .= base_convert($segment, 2, 16);
+        $hexMask = '';
+        foreach (str_split($m, 4) as $segment) {
+            $hexMask .= base_convert($segment, 2, 16);
         }
 
-        $mask = substr(preg_replace('/([A-f0-9]{4})/', '$1:', $_hexMask), 0, -1);
+        $mask = substr(preg_replace('/([A-f0-9]{4})/', '$1:', $hexMask), 0, -1);
 
-        $ip_bin = inet_pton($ip);
-        $mask_bin = inet_pton($mask);
+        $ipBin = inet_pton($ip);
+        $maskBin = inet_pton($mask);
 
-        $network = $ip_bin & $mask_bin;
-        $broadcast = $ip_bin | ~$mask_bin;
+        $network = $ipBin & $maskBin;
+        $broadcast = $ipBin | ~$maskBin;
 
         return [
             'start' => self::convertBinaryToPrintable($network),
