@@ -53,7 +53,7 @@
             "@prepare-run-phpunit",
             "vendor/bin/simple-phpunit"
         ],
-        "run-phpcs": "php vendor/bin/phpcs -p --standard=vendor/escapestudios/symfony2-coding-standard/Symfony/ruleset.xml,phpcs.xml --ignore=*/vendor/*,Tests/config/bootstrap.php ./ --extensions=php --report-full",
+        "run-phpcs": "php vendor/bin/phpcs -p --standard=phpcs.xml --ignore=*/vendor/*,Tests/config/bootstrap.php ./ --extensions=php --report-full",
         "run-phpmd": "php vendor/bin/phpmd ./ text ./phpmd.xml --exclude vendor/,Tests/config/bootstrap.php --suffixes php",
         "run-test-suite": [
             "@run-phpunit",
