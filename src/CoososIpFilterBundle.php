@@ -15,8 +15,16 @@ namespace Coosos\IpFilterBundle;
 use Coosos\IpFilterBundle\DependencyInjection\CoososIpFilterExtension;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
+/**
+ * Class CoososIpFilterBundle
+ *
+ * @package Coosos\IpFilterBundle
+ */
 class CoososIpFilterBundle extends Bundle
 {
+    /**
+     * {@inheritDoc}
+     */
     public function getContainerExtension()
     {
         return new CoososIpFilterExtension('sl_ip_filter');
