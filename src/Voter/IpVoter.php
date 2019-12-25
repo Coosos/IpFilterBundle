@@ -12,8 +12,7 @@
 
 namespace Coosos\IpFilterBundle\Voter;
 
-use Coosos\IpFilterBundle\Repository\IpRepository;
-use Doctrine\ORM\EntityRepository;
+use Coosos\IpFilterBundle\Model\IpManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -36,22 +35,22 @@ class IpVoter extends AbstractIpVoter
     protected $requestStack;
 
     /**
-     * @var IpRepository
+     * @var IpManagerInterface
      */
-    private $ipRepository;
+    protected $ipManager;
 
     /**
      * IpVoter constructor.
      *
-     * @param string                        $environment
-     * @param RequestStack                  $requestStack
-     * @param EntityRepository|IpRepository $ipRepository
+     * @param string             $environment
+     * @param RequestStack       $requestStack
+     * @param IpManagerInterface $ipManager
      */
-    public function __construct(string $environment, RequestStack $requestStack, EntityRepository $ipRepository)
+    public function __construct(string $environment, RequestStack $requestStack, IpManagerInterface $ipManager)
     {
         $this->environment = $environment;
         $this->requestStack = $requestStack;
-        $this->ipRepository = $ipRepository;
+        $this->ipManager = $ipManager;
     }
 
     /**
@@ -73,8 +72,8 @@ class IpVoter extends AbstractIpVoter
     /**
      * {@inheritDoc}
      */
-    protected function getIpRepository(): IpRepository
+    protected function getIpManager(): IpManagerInterface
     {
-        return $this->ipRepository;
+        return $this->ipManager;
     }
 }
