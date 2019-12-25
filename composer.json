@@ -32,6 +32,9 @@
         "escapestudios/symfony2-coding-standard": "3.x-dev",
         "phpmd/phpmd": "^2.8"
     },
+    "replace": {
+        "spomky-labs/ip-filter-bundle": "self.version"
+    },
     "autoload": {
         "psr-4": { "Coosos\\IpFilterBundle\\": "src/" }
     },
