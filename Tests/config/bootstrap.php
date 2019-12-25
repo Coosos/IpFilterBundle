@@ -1,6 +1,6 @@
 <?php
 
-use Coosos\AppIpFilterBundle\Kernel;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Dotenv\Dotenv;
 
 require dirname(__DIR__).'/../vendor/autoload.php';

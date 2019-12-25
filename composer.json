@@ -1,7 +1,7 @@
 {
     "name": "coosos/ip-filter-bundle",
     "type": "symfony-bundle",
-    "description": "SF4 & SF5 Ip Filter Bundle",
+    "description": "Symfony 4 & 5 Ip Filter Bundle",
     "keywords": ["ip", "ipv4", "ipv6", "environment", "range", "filter", "Symfony4", "bundle", "Symfony5"],
     "homepage": "https://github.com/Coosos/IpFilterBundle",
     "license": "MIT",
