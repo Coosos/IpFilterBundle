@@ -18,7 +18,7 @@
         <service id="sl_ip_filter.ip_voter" class="Coosos\IpFilterBundle\Voter\IpVoter" public="false">
             <argument>%kernel.environment%</argument>
             <argument type="service" id="request_stack" />
-            <argument type="service" id="coosos_ip_filter.repository"/>
+            <argument type="service" id="sl_ip_filter.ip_manager"/>
             <tag name="security.voter" />
         </service>
     </services>

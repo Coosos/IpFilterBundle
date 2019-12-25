@@ -12,7 +12,7 @@
 
 namespace Coosos\IpFilterBundle\Voter;
 
-use Coosos\IpFilterBundle\Repository\IpRepository;
+use Coosos\IpFilterBundle\Model\IpManagerInterface;
 use Coosos\IpFilterBundle\Tool\IpConverter;
 use Exception;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,7 +41,7 @@ abstract class AbstractIpVoter implements VoterInterface
         $from = IpConverter::fromIpToHex($request->getClientIp());
         $env = $this->getEnvironment();
 
-        $ips = $this->getIpRepository()->findIpAddress($from, $env);
+        $ips = $this->getIpManager()->findIpAddress($from, $env);
         if (count($ips) === 0) {
             return VoterInterface::ACCESS_ABSTAIN;
         }
@@ -66,7 +66,7 @@ abstract class AbstractIpVoter implements VoterInterface
     abstract protected function getEnvironment(): string;
 
     /**
-     * @return IpRepository
+     * @return IpManagerInterface
      */
-    abstract protected function getIpRepository(): IpRepository;
+    abstract protected function getIpManager(): IpManagerInterface;
 }
