@@ -1,8 +1,13 @@
 language: php
+cache:
+    directories:
+        - $HOME/.composer/cache/files
+
 php:
     - 7.1
     - 7.2
     - 7.3
+    - 7.4
 
 env:
     - SYMFONY_VERSION=4.0.*
@@ -10,9 +15,16 @@ env:
     - SYMFONY_VERSION=4.2.*
     - SYMFONY_VERSION=4.3.*
     - SYMFONY_VERSION=4.4.*
+    - SYMFONY_VERSION=5.0.*
+
+matrix:
+    exclude:
+        - php: 7.1
+          env: SYMFONY_VERSION=5.0.*
 
 before_script:
     - curl -s http://getcomposer.org/installer | php
+    - php composer.phar global require hirak/prestissimo
     - php composer.phar require symfony/symfony:${SYMFONY_VERSION} --no-update
     - php composer.phar require symfony/security-bundle:${SYMFONY_VERSION} --no-update
     - php composer.phar require symfony/finder:${SYMFONY_VERSION} --no-update
@@ -21,7 +33,7 @@ before_script:
     - php composer.phar require symfony/expression-language:${SYMFONY_VERSION} --no-update
     - php composer.phar require symfony/console:${SYMFONY_VERSION} --no-update
     - php composer.phar require symfony/dotenv:${SYMFONY_VERSION} --no-update
-    - php composer.phar update --no-interaction
+    - COMPOSER_MEMORY_LIMIT=-1 php composer.phar update --no-interaction
 
 script:
-    - php vendor/bin/simple-phpunit
+    - php composer.phar run-test-suite

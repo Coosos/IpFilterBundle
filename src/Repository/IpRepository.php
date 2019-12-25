@@ -28,7 +28,7 @@ class IpRepository extends EntityRepository
             ->andWhere("r.environment LIKE :environment OR r.environment='a:0:{}'")
             ->orderBy('r.authorized', 'DESC')
             ->setParameter('ip', $ip)
-            ->setParameter('environment', '%'. $environment .'%');
+            ->setParameter('environment', '%' . $environment . '%');
 
         $result = $queryBuilder->getQuery()->getResult();
 

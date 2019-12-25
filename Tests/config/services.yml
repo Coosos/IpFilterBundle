@@ -1,0 +1,4 @@
+services:
+    Coosos\AppIpFilterBundle\DataFixtures\:
+        resource: '../src/DataFixtures'
+        tags: ['doctrine.fixture.orm']

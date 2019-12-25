@@ -12,8 +12,7 @@
 
 namespace Coosos\IpFilterBundle\Voter;
 
-use Coosos\IpFilterBundle\Repository\IpRepository;
-use Doctrine\ORM\EntityRepository;
+use Coosos\IpFilterBundle\Model\IpManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -23,7 +22,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  * @package Coosos\IpFilterBundle\Voter
  * @author  Remy Lescallier <lescallier1@gmail.com>
  */
-class IpVoter extends BaseIpVoter
+class IpVoter extends AbstractIpVoter
 {
     /**
      * @var string
@@ -36,45 +35,45 @@ class IpVoter extends BaseIpVoter
     protected $requestStack;
 
     /**
-     * @var IpRepository
+     * @var IpManagerInterface
      */
-    private $ipRepository;
+    protected $ipManager;
 
     /**
      * IpVoter constructor.
      *
-     * @param string       $environment
-     * @param RequestStack $requestStack
-     * @param EntityRepository|IpRepository $ipRepository
+     * @param string             $environment
+     * @param RequestStack       $requestStack
+     * @param IpManagerInterface $ipManager
      */
-    public function __construct(string $environment, RequestStack $requestStack, EntityRepository $ipRepository)
+    public function __construct(string $environment, RequestStack $requestStack, IpManagerInterface $ipManager)
     {
         $this->environment = $environment;
         $this->requestStack = $requestStack;
-        $this->ipRepository = $ipRepository;
+        $this->ipManager = $ipManager;
     }
 
     /**
-     * @return Request|null
+     * {@inheritDoc}
      */
-    protected function getRequest()
+    protected function getRequest(): ?Request
     {
         return $this->requestStack->getCurrentRequest();
     }
 
     /**
-     * @return string
+     * {@inheritDoc}
      */
-    protected function getEnvironment()
+    protected function getEnvironment(): string
     {
         return $this->environment;
     }
 
     /**
-     * @return IpRepository
+     * {@inheritDoc}
      */
-    public function getIpRepository()
+    protected function getIpManager(): IpManagerInterface
     {
-        return $this->ipRepository;
+        return $this->ipManager;
     }
 }

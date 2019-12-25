@@ -16,10 +16,10 @@ use Coosos\IpFilterBundle\Model\IpInterface;
 use Coosos\IpFilterBundle\Model\IpManagerInterface;
 use Coosos\IpFilterBundle\Repository\IpRepository;
 use Coosos\IpFilterBundle\Tool\Network;
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\Persistence\ObjectRepository;
+use Doctrine\Persistence\ObjectManager;
+use Doctrine\Persistence\ObjectRepository;
+use Doctrine\Persistence\AbstractManagerRegistry;
 use Exception;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
  * Class IpManager
@@ -46,10 +46,10 @@ class IpManager implements IpManagerInterface
     /**
      * IpManager constructor.
      *
-     * @param RegistryInterface $registry
-     * @param string            $class
+     * @param AbstractManagerRegistry $registry
+     * @param string                  $class
      */
-    public function __construct(RegistryInterface $registry, string $class)
+    public function __construct(AbstractManagerRegistry $registry, string $class)
     {
         $this->class = $class;
         $this->entityManager = $registry->getManagerForClass($class);

@@ -14,11 +14,22 @@ namespace Coosos\AppIpFilterBundle\Entity;
 
 use Coosos\IpFilterBundle\Entity\Ip as Base;
 
+/**
+ * Class Ip
+ *
+ * @package Coosos\AppIpFilterBundle\Entity
+ */
 class Ip extends Base
 {
+    /**
+     * @var null|int
+     */
     protected $id;
 
-    public function getId()
+    /**
+     * @return null|int
+     */
+    public function getId(): ?int
     {
         return $this->id;
     }

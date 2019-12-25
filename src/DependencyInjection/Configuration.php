@@ -15,8 +15,16 @@ namespace Coosos\IpFilterBundle\DependencyInjection;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
+/**
+ * Class Configuration
+ *
+ * @package Coosos\IpFilterBundle\DependencyInjection
+ */
 class Configuration implements ConfigurationInterface
 {
+    /**
+     * @var string
+     */
     private $alias;
 
     /**

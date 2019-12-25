@@ -12,7 +12,7 @@
 
 namespace Coosos\IpFilterBundle\Voter;
 
-use Coosos\IpFilterBundle\Repository\IpRepository;
+use Coosos\IpFilterBundle\Model\IpManagerInterface;
 use Coosos\IpFilterBundle\Tool\IpConverter;
 use Exception;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,27 +20,12 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 /**
- * Class BaseIpVoter
+ * Class AbstractIpVoter
  *
  * @package Coosos\IpFilterBundle\Voter
  */
-abstract class BaseIpVoter implements VoterInterface
+abstract class AbstractIpVoter implements VoterInterface
 {
-    /**
-     * @return Request
-     */
-    abstract protected function getRequest();
-
-    /**
-     * @return string
-     */
-    abstract protected function getEnvironment();
-
-    /**
-     * @return IpRepository
-     */
-    abstract protected function getIpRepository();
-
     /**
      * {@inheritDoc}
      *
@@ -56,7 +41,7 @@ abstract class BaseIpVoter implements VoterInterface
         $from = IpConverter::fromIpToHex($request->getClientIp());
         $env = $this->getEnvironment();
 
-        $ips = $this->getIpRepository()->findIpAddress($from, $env);
+        $ips = $this->getIpManager()->findIpAddress($from, $env);
         if (count($ips) === 0) {
             return VoterInterface::ACCESS_ABSTAIN;
         }
@@ -69,4 +54,19 @@ abstract class BaseIpVoter implements VoterInterface
 
         return VoterInterface::ACCESS_DENIED;
     }
+
+    /**
+     * @return Request
+     */
+    abstract protected function getRequest(): ?Request;
+
+    /**
+     * @return string
+     */
+    abstract protected function getEnvironment(): string;
+
+    /**
+     * @return IpManagerInterface
+     */
+    abstract protected function getIpManager(): IpManagerInterface;
 }
