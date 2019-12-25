@@ -2,7 +2,7 @@
     "name": "coosos/ip-filter-bundle",
     "type": "symfony-bundle",
     "description": "Symfony4 Ip Filter Bundle",
-    "keywords": ["ip", "ipv4", "ipv6", "environment", "range", "filter", "Symfony4", "bundle"],
+    "keywords": ["ip", "ipv4", "ipv6", "environment", "range", "filter", "Symfony4", "bundle", "Symfony5"],
     "homepage": "https://github.com/Coosos/IpFilterBundle",
     "license": "MIT",
     "authors": [
