@@ -18,7 +18,7 @@ For example, you can grant access of a range of addresses from `192.168.1.1` to 
 | Package       | Version      |
 | ------------- | ------------ |
 | PHP           | ^7.1         |
-| Symfony       | ^4.0|~5.0    |
+| Symfony       | ^4.0\|~5.0   |
 | Doctrine      | ^2.6         |
 
 # Policy #
